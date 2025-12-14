@@ -1,0 +1,59 @@
+/* Motion CSS - clip-paths, masks, helpers for GSAP animations */
+
+/* Clip path utilities */
+.clip-circle {
+  clip-path: circle(0% at 50% 50%);
+}
+
+.clip-circle-full {
+  clip-path: circle(150% at 50% 50%);
+}
+
+.clip-inset {
+  clip-path: inset(0 0 100% 0);
+}
+
+.clip-inset-reveal {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Transform helpers */
+.transform-gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Smooth transition helpers */
+.ease-smooth {
+  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.ease-expo {
+  transition-timing-function: cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+/* Will-change for performance */
+.animate-transform {
+  will-change: transform;
+}
+
+.animate-opacity {
+  will-change: opacity;
+}
+
+.animate-clip {
+  will-change: clip-path;
+}
+
+/* Prevent text selection during animations */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Mask utilities for image reveals */
+.mask-gradient {
+  mask-image: linear-gradient(to bottom, transparent, black);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black);
+}
