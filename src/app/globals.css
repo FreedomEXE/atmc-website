@@ -1,3 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
+:root {
+  --brand-orange: #ff5500;
+  --brand-dark: #050505;
+  --brand-neutral: #f7f7f2;
+}
+
 /* Lenis smooth scroll base styles */
 html.lenis,
 html.lenis body {
@@ -24,9 +32,12 @@ html.lenis body {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Space Grotesk", "-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--brand-neutral);
+  color: var(--brand-dark);
+  line-height: 1.6;
 }
 
 /* Performance optimization for animated elements */

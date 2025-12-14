@@ -5,20 +5,36 @@ import gsap from "gsap";
 import Logo from "@/components/brand/Logo";
 import { createHeroTimeline } from "@/lib/animations";
 
-export default function HeroScene() {
+type Props = {
+  play: boolean;
+  onRevealComplete?: () => void;
+};
+
+export default function HeroScene({ play, onRevealComplete }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const ctaRef = useRef<HTMLButtonElement>(null);
+  const hasPlayedRef = useRef(false);
+  const doneRef = useRef(false);
 
   useLayoutEffect(() => {
+    if (!play || hasPlayedRef.current) return;
     if (!containerRef.current) return;
 
+    hasPlayedRef.current = true;
+
     const ctx = gsap.context(() => {
-      createHeroTimeline(containerRef.current!);
+      const tl = createHeroTimeline(containerRef.current!, () => {
+        if (doneRef.current) return;
+        doneRef.current = true;
+        onRevealComplete?.();
+      });
+
+      return () => tl.kill();
     }, containerRef);
 
-    return () => ctx.revert();
-  }, []);
+    return () => {
+      ctx.revert();
+    };
+  }, [play, onRevealComplete]);
 
   return (
     <section
@@ -31,16 +47,17 @@ export default function HeroScene() {
         flexDirection: "column",
         position: "relative",
         padding: "2rem",
+        backgroundColor: "var(--brand-neutral)",
+        color: "var(--brand-dark)",
       }}
     >
       <div className="hero-logo atmc-logo" style={{ marginBottom: "2rem" }}>
-        <Logo width={300} />
+        <Logo />
       </div>
-      <h1 ref={headlineRef} className="headline" style={{ fontSize: "4rem", marginBottom: "2rem", textAlign: "center" }}>
-        Premium Property Management
+      <h1 className="headline hero-headline" style={{ marginBottom: "2rem", textAlign: "center" }}>
+        Your Property, Our Priority
       </h1>
       <button
-        ref={ctaRef}
         className="cta"
         style={{
           padding: "1rem 2rem",

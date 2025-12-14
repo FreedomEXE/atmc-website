@@ -5,46 +5,29 @@ import Logo from "@/components/brand/Logo";
 import { createIntroTimeline } from "@/lib/animations";
 
 type Props = {
-  onComplete?: () => void;
+  onHeroStart?: () => void;
 };
 
-export default function IntroLoader({ onComplete }: Props) {
+export default function IntroLoader({ onHeroStart }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
+  const doneRef = useRef(false);
 
   useEffect(() => {
     if (!containerRef.current || !logoRef.current) return;
 
-    // Create intro timeline
-    const tl = createIntroTimeline(containerRef.current, () => {
-      // Enable scroll after intro
-      document.body.style.overflow = "auto";
-      if (onComplete) onComplete();
-    });
-
     // Lock scroll during intro
     document.body.style.overflow = "hidden";
 
-    // Example animation sequence
-    tl.from(logoRef.current, {
-      scale: 0.5,
-      opacity: 0,
-      duration: 1,
-      ease: "power3.out",
-    })
-      .to(logoRef.current, {
-        scale: 1,
-        duration: 0.8,
-      })
-      .to(containerRef.current, {
-        opacity: 0,
-        duration: 0.5,
-        onComplete: () => {
-          if (containerRef.current) {
-            containerRef.current.style.display = "none";
-          }
-        },
-      });
+    const tl = createIntroTimeline(
+      containerRef.current,
+      logoRef.current,
+      () => {
+        if (doneRef.current) return;
+        doneRef.current = true;
+        onHeroStart?.();
+      }
+    );
 
     return () => {
       tl.kill();
@@ -54,7 +37,7 @@ export default function IntroLoader({ onComplete }: Props) {
         containerRef.current.style.display = "";
       }
     };
-  }, [onComplete]);
+  }, [onHeroStart]);
 
   return (
     <div
@@ -74,14 +57,14 @@ export default function IntroLoader({ onComplete }: Props) {
     >
       <div
         ref={logoRef}
-        className="atmc-logo"
+        className="intro-logo atmc-logo"
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <Logo width={300} />
+        <Logo />
       </div>
     </div>
   );

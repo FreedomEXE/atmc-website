@@ -3,8 +3,8 @@ import "../styles/motion.css";
 import ScrollProvider from "@/components/providers/ScrollProvider";
 
 export const metadata = {
-  title: "ATMC - Premium Property Management",
-  description: "Animation-first property management website",
+  title: "ATMC - Your Property, Our Priority",
+  description: "Animation-first property experience for ATMC — Your Property, Our Priority.",
 };
 
 export default function RootLayout({

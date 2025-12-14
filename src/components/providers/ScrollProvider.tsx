@@ -22,7 +22,7 @@ export default function ScrollProvider({ children }: Props) {
     }
 
     const lenis = new Lenis({
-      lerp: 0.1,
+      lerp: 0.075,
       smoothWheel: true,
       smoothTouch: false,
       wheelMultiplier: 1,

@@ -34,7 +34,9 @@ export default function Navbar() {
           alignItems: "center",
         }}
       >
-        <Logo width={140} priority className="atmc-logo" />
+        <div className="nav-logo atmc-logo" aria-label="ATMC logo">
+          <Logo priority />
+        </div>
         <div style={{ display: "flex", gap: "2rem" }}>
           <a href="#" style={{ textDecoration: "none", color: "inherit" }}>
             Services

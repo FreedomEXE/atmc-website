@@ -15,9 +15,11 @@ export default function Footer() {
         color: "#fff",
       }}
     >
-      <Logo width={180} />
+      <div className="footer-logo atmc-logo">
+        <Logo />
+      </div>
       <p style={{ fontSize: "0.9rem", color: "rgba(255,255,255,0.7)" }}>
-        © {new Date().getFullYear()} ATMC. Elevating premium property management.
+        © {new Date().getFullYear()} ATMC. Your Property, Our Priority.
       </p>
     </footer>
   );
