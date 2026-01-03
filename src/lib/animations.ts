@@ -151,24 +151,333 @@ export function createMapScrollTrigger(
 
   if (!mapElement) return tl;
 
-  // Example map zoom/transform
+  const mapCanvas = mapElement.querySelector<HTMLElement>("[data-map-canvas]");
+  const mapDetail = mapElement.querySelector<HTMLElement>("[data-map-detail]");
+  const pins = Array.from(
+    mapElement.querySelectorAll<HTMLElement>("[data-pin]")
+  );
+  const pinPulses = Array.from(
+    mapElement.querySelectorAll<HTMLElement>("[data-pin-pulse]")
+  );
+  const pinBodies = Array.from(
+    mapElement.querySelectorAll<HTMLElement>("[data-pin-body]")
+  );
+  const pinIcons = Array.from(
+    mapElement.querySelectorAll<HTMLElement>("[data-pin-icon]")
+  );
+  const pinLabels = Array.from(
+    mapElement.querySelectorAll<HTMLElement>("[data-pin-label]")
+  );
+  const panel = mapElement.querySelector<HTMLElement>("[data-info-panel]");
+  const panelItems = Array.from(
+    mapElement.querySelectorAll<HTMLElement>("[data-panel-id]")
+  );
+  const focusGlow = mapElement.querySelector<HTMLElement>("[data-focus-glow]");
+
+  if (!mapCanvas || !panel) return tl;
+
+  gsap.set(mapCanvas, { scale: 1.12, y: 40 });
+  if (mapDetail) gsap.set(mapDetail, { opacity: 0 });
+  gsap.set(pins, { opacity: 0, scale: 0.6 });
+  gsap.set(pinPulses, { opacity: 0, scale: 1 });
+  gsap.set(pinBodies, { "--pin-fill": "#f7f7f2" });
+  gsap.set(pinIcons, { color: "#050505" });
+  gsap.set(pinLabels, { opacity: 0, y: 8 });
+  gsap.set(panel, { opacity: 0, x: 40 });
+  gsap.set(panelItems, { opacity: 0, y: 8 });
+  if (focusGlow) gsap.set(focusGlow, { opacity: 0, scale: 0.8 });
+
+  const waveOne = pins.slice(0, 3);
+  const waveTwo = pins.slice(3);
+
   tl.to(
-    mapElement,
+    mapCanvas,
     {
-      scale: 1.08,
-      y: -70,
-      duration: 1.2,
+      scale: 1.03,
+      y: -20,
+      duration: 0.6,
       ease: "power2.out",
     },
     0
-  ).to(
-    mapElement,
+  )
+    .to(
+      waveOne,
+      {
+        opacity: 1,
+        scale: 1,
+        duration: 0.35,
+        stagger: 0.12,
+        ease: "power2.out",
+      },
+      0.12
+    )
+    .to(
+      panel,
+      {
+        opacity: 1,
+        x: 0,
+        duration: 0.6,
+        ease: "power2.out",
+      },
+      0.2
+    )
+    .to(
+      waveTwo,
+      {
+        opacity: 1,
+        scale: 1,
+        duration: 0.35,
+        stagger: 0.1,
+        ease: "power2.out",
+      },
+      0.35
+    );
+
+  if (mapDetail) {
+    tl.to(
+      mapDetail,
+      {
+        opacity: 0.5,
+        duration: 0.6,
+        ease: "power1.out",
+      },
+      0.05
+    );
+  }
+
+  const focusSequence = [
+    { id: "toronto", drift: { x: -10, y: -30 } },
+    { id: "hamilton", drift: { x: -22, y: -18 } },
+    { id: "ottawa", drift: { x: 12, y: -36 } },
+  ];
+
+  const runFocus = (
+    pin: HTMLElement,
+    start: number,
+    drift: { x: number; y: number }
+  ) => {
+    const pulse = pin.querySelector<HTMLElement>("[data-pin-pulse]");
+    const label = pin.querySelector<HTMLElement>("[data-pin-label]");
+    const body = pin.querySelector<HTMLElement>("[data-pin-body]");
+    const icon = pin.querySelector<HTMLElement>("[data-pin-icon]");
+    const panelItem = panelItems.find(
+      (item) => item.dataset.panelId === pin.dataset.pin
+    );
+    const left = pin.style.left;
+    const top = pin.style.top;
+
+    tl.to(
+      pins,
+      {
+        opacity: 0.55,
+        duration: 0.25,
+        ease: "power1.out",
+      },
+      start
+    ).to(
+      pin,
+      {
+        opacity: 1,
+        scale: 1.12,
+        duration: 0.3,
+        ease: "power2.out",
+      },
+      start
+    );
+
+    if (pinPulses.length) {
+      tl.to(
+        pinPulses,
+        {
+          opacity: 0,
+          scale: 1,
+          duration: 0.2,
+          ease: "power1.out",
+        },
+        start
+      );
+    }
+
+    if (pulse) {
+      tl.to(
+        pulse,
+        {
+          opacity: 1,
+          scale: 1.6,
+          duration: 0.4,
+          ease: "power2.out",
+        },
+        start
+      );
+    }
+
+    if (pinLabels.length) {
+      tl.to(
+        pinLabels,
+        {
+          opacity: 0,
+          y: 8,
+          duration: 0.2,
+          ease: "power1.out",
+        },
+        start
+      );
+    }
+
+    if (pinBodies.length) {
+      tl.to(
+        pinBodies,
+        {
+          "--pin-fill": "#f7f7f2",
+          duration: 0.2,
+          ease: "power1.out",
+        },
+        start
+      );
+    }
+
+    if (pinIcons.length) {
+      tl.to(
+        pinIcons,
+        {
+          color: "#050505",
+          duration: 0.2,
+          ease: "power1.out",
+        },
+        start
+      );
+    }
+
+    if (body) {
+      tl.to(
+        body,
+        {
+          "--pin-fill": "#ff5500",
+          duration: 0.3,
+          ease: "power2.out",
+        },
+        start
+      );
+    }
+
+    if (icon) {
+      tl.to(
+        icon,
+        {
+          color: "#ffffff",
+          duration: 0.3,
+          ease: "power2.out",
+        },
+        start
+      );
+    }
+
+    if (label) {
+      tl.to(
+        label,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
+          ease: "power2.out",
+        },
+        start + 0.05
+      );
+    }
+
+    if (focusGlow) {
+      tl.to(
+        focusGlow,
+        {
+          opacity: 0.6,
+          scale: 1,
+          left,
+          top,
+          duration: 0.35,
+          ease: "power2.out",
+        },
+        start
+      );
+    }
+
+    tl.to(
+      mapCanvas,
+      {
+        x: drift.x,
+        y: drift.y,
+        duration: 0.7,
+        ease: "power1.out",
+      },
+      start
+    );
+
+    if (panelItems.length) {
+      tl.to(
+        panelItems,
+        {
+          opacity: 0,
+          y: 8,
+          duration: 0.2,
+          ease: "power1.out",
+        },
+        start
+      );
+    }
+
+    if (panelItem) {
+      tl.to(
+        panelItem,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
+          ease: "power2.out",
+        },
+        start + 0.1
+      );
+    }
+  };
+
+  let focusStart = 0.55;
+  focusSequence.forEach((focus) => {
+    const pin = mapElement.querySelector<HTMLElement>(
+      `[data-pin="${focus.id}"]`
+    );
+    if (pin) {
+      runFocus(pin, focusStart, focus.drift);
+      focusStart += 0.35;
+    }
+  });
+
+  tl.to(
+    panel,
     {
-      opacity: 0.95,
-      duration: 1.2,
+      opacity: 0,
+      x: 20,
+      duration: 0.45,
+      ease: "power1.out",
     },
-    0
-  );
+    1.65
+  )
+    .to(
+      pins,
+      {
+        opacity: 0.4,
+        duration: 0.4,
+        ease: "power1.out",
+      },
+      1.6
+    )
+    .to(
+      mapCanvas,
+      {
+        scale: 0.98,
+        y: -10,
+        duration: 0.6,
+        ease: "power2.out",
+      },
+      1.55
+    );
 
   return tl;
 }

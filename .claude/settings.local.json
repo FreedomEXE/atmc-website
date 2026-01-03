@@ -8,7 +8,11 @@
       "Bash(git init:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "mcp__ide__executeCode",
+      "Bash(python:*)",
+      "Bash(git checkout:*)",
+      "WebFetch(domain:www.ng-investment.com)"
     ],
     "deny": [],
     "ask": []

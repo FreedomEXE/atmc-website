@@ -51,7 +51,13 @@ export default function ScrollProvider({ children }: Props) {
       gsap.ticker.remove(tick);
 
       // Prevent stacked triggers/pins during dev HMR
-      ScrollTrigger.killAll();
+      ScrollTrigger.getAll().forEach((trigger) => {
+        try {
+          trigger.kill();
+        } catch {
+          // Ignore stale pin cleanup during HMR.
+        }
+      });
     };
   }, []);
 

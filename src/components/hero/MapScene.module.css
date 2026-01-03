@@ -1,0 +1,241 @@
+.section {
+  background: #fcf9f7;
+  padding: 80px 0 140px;
+  position: relative;
+}
+
+.inner {
+  width: min(1280px, 94vw);
+  margin: 0 auto;
+  display: grid;
+  gap: 64px;
+}
+
+.statsRow {
+  display: flex;
+  gap: 28px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.statCard {
+  width: 280px;
+  height: 280px;
+  background: #ffffff;
+  border: 1px solid rgba(248, 103, 46, 0.2);
+  border-radius: 5px;
+  padding: 16px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.statCard:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 85, 0, 0.4);
+}
+
+.statIcon {
+  width: 68px;
+  height: 68px;
+  display: grid;
+  place-items: center;
+}
+
+.statIcon svg {
+  width: 50px;
+  height: 50px;
+  color: #89a4b4;
+}
+
+.statNumber {
+  font-size: 44px;
+  font-weight: 300;
+  color: #ff6109;
+  letter-spacing: -1px;
+  line-height: 46px;
+}
+
+.statLabel {
+  font-size: 32px;
+  color: #101d25;
+  font-weight: 400;
+  letter-spacing: -1px;
+  line-height: 36px;
+}
+
+.mapWrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.mapStage {
+  position: relative;
+  width: 100%;
+  max-width: 1280px;
+  aspect-ratio: 1004 / 939;
+}
+
+.mapLayer {
+  position: absolute;
+  inset: 0;
+  transform: translateY(-2%) scale(1.18);
+  transform-origin: center;
+  z-index: 1;
+}
+
+.mapSvg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.regionGroup {
+  stroke-linejoin: round;
+}
+
+.regionShape {
+  fill: #e5edf1;
+  stroke: #ffffff;
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+  transition: fill 0.2s ease, opacity 0.2s ease, stroke 0.2s ease;
+  cursor: pointer;
+}
+
+.regionShape:focus-visible {
+  outline: none;
+  stroke: #9fb3bf;
+  stroke-width: 2;
+}
+
+.regionActive {
+  fill: #dce9f0;
+}
+
+.pinsLayer {
+  position: absolute;
+  inset: 0;
+}
+
+.mapCard {
+  position: absolute;
+  top: 6%;
+  left: 4%;
+  width: min(452px, 92vw);
+  background: #101d25;
+  border-radius: 5px;
+  overflow: hidden;
+  color: #ffffff;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+}
+
+.mapCardHeader {
+  height: 200px;
+  background: linear-gradient(135deg, #1f3340, #0f1c25);
+  position: relative;
+}
+
+.mapCardClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 60px;
+  height: 60px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.mapCardClose:hover {
+  background: rgba(255, 255, 255, 0.9);
+  color: #101d25;
+}
+
+.mapCardBody {
+  padding: 18px 20px 22px;
+}
+
+.mapCardTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.mapCardSubtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 16px;
+}
+
+.mapCardInfo {
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.mapCardRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.mapCardLabel {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+@media (max-width: 900px) {
+  .statsRow {
+    justify-content: center;
+  }
+
+  .statCard {
+    width: 240px;
+    height: 240px;
+  }
+
+  .mapStage {
+    max-width: 1040px;
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 56px 0 80px;
+  }
+
+  .statsRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .statCard {
+    width: 100%;
+    height: auto;
+    min-height: 160px;
+  }
+
+  .mapStage {
+    width: 100%;
+  }
+
+  .mapCard {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 4%;
+  }
+
+  .mapCardHeader {
+    height: 160px;
+  }
+}

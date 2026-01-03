@@ -1,7 +1,6 @@
 "use client";
 
 import { useLayoutEffect, useRef } from "react";
-import gsap from "gsap";
 import { createExitTimeline } from "@/lib/animations";
 
 export default function ScrollSections() {
@@ -12,7 +11,12 @@ export default function ScrollSections() {
     if (!section1Ref.current || !section2Ref.current) return;
 
     // Create exit/transition animations between sections
-    createExitTimeline(section2Ref.current);
+    const tl = createExitTimeline(section2Ref.current);
+
+    return () => {
+      tl.scrollTrigger?.kill();
+      tl.kill();
+    };
   }, []);
 
   return (
