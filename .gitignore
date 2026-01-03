@@ -31,3 +31,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# python
+*.py
+__pycache__/
+
+# screenshots and reference files
+screenshots/
+pnpm-lock.yaml
